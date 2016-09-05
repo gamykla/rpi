@@ -1,0 +1,5 @@
+picamera
+fabric
+Pillow
+numpy
+nose
