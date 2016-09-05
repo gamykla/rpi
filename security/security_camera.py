@@ -35,7 +35,7 @@ def main():
             last_image = image
 
         if motion_detector.is_motion_detected(image, last_image):
-            logger.debug("Motion is detected!")
+            logger.debug("WARNING ---------------- Motion is detected!")
         else:
             logger.debug("No motion.")
 
