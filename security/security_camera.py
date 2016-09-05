@@ -7,6 +7,7 @@ from picamera import PiCamera
 
 import motion_detector
 
+logging.basicConfig(format='%(asctime)-15s  %(message)s')
 logger = logging.getLogger(__name__)
 
 
