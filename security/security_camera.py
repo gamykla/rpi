@@ -8,7 +8,7 @@ from picamera import PiCamera
 import motion_detector
 
 logging.basicConfig(format='%(asctime)-15s  %(message)s')
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__, level=logging.DEBUG)
 
 
 def _build_camera():
@@ -26,10 +26,11 @@ def main():
     while True:
         sleep(1)
         stream = BytesIO()
+        logger.debug("Capturing image")
         camera.capture(stream, format='jpeg')
         stream.seek(0)
-
         image = Image.open(stream)
+
         if not last_image:
             last_image = image
 
