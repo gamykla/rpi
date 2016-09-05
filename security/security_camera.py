@@ -24,7 +24,7 @@ def main():
     last_image = None
 
     while True:
-        sleep(1)
+        sleep(0.5)
         stream = BytesIO()
         logger.debug("Capturing image")
         camera.capture(stream, format='jpeg')
