@@ -16,6 +16,7 @@ def _build_camera():
     camera.resolution = (1024, 768)
     return camera
 
+
 def main():
     camera = _build_camera()
     camera.start_preview()
