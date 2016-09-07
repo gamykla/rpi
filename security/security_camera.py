@@ -53,7 +53,7 @@ class SecurityCamera():
                 stream.close()
 
                 if self._is_motion_detected(captured_image):
-                    logger.debug("Motion detected.")
+                    logger.debug("MOTION DETECTED!")
                 else:
                     logger.debug("No motion.")
 
