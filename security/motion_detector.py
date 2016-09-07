@@ -4,7 +4,6 @@ import math
 from PIL import ImageChops
 import numpy as np
 
-THRESHOLD = 2.0
 
 logger = logging.getLogger(__name__)
 
@@ -22,9 +21,19 @@ def _image_entropy(img):
 
 class MotionDetector(object):
 
+    THRESHOLD = 2.0
+
+    def __init__(self, entropy_function=_image_entropy):
+        self.entropy_calculator = entropy_function
+
     def is_motion_detected(self, image1, image2):
         """returns True if there is a difference in image2 which would suggest motion
         having occurred if image2 was taken after image1. Both images are PIL.Image's"""
         difference_image = ImageChops.difference(image1, image2)
-        entropy = _image_entropy(difference_image)
-        return math.fabs(entropy) > THRESHOLD
+        entropy = self.entropy_calculator(difference_image)
+        return math.fabs(entropy) > MotionDetector.THRESHOLD
+
+if __name__ == "__main__":
+    from io import BytesIO
+    stream = BytesIO()
+    stream.write(bytes("abc"))
