@@ -48,7 +48,6 @@ class SecurityCamera():
 
             stream.seek(0)
             captured_image = Image.open(stream)
-            stream.close()
 
             if self._is_motion_detected(captured_image):
                 logger.debug("Motion detected.")
@@ -56,6 +55,7 @@ class SecurityCamera():
                 logger.debug("No motion.")
 
             self.last_image_captured = captured_image
+            stream.close()
 
 
 def main():
