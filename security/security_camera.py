@@ -35,6 +35,18 @@ class SecurityCamera():
             return False
         return self.motion_sensor.is_motion_detected(self.last_image_captured, new_image_captured)
 
+    def _capture_image(self):
+        try:
+            stream = BytesIO()
+            self.camera.capture(stream, format='jpeg')
+            stream.seek(0)
+            captured_image = Image.open(stream)
+            captured_image.load()
+            stream.close()
+            return captured_image
+        except:
+            logger.exception("An error occured capturing image.")
+
     def capture_loop(self):
         try:
             self.camera.start_preview()
@@ -44,13 +56,7 @@ class SecurityCamera():
                 sleep(0.5)
                 logger.debug("Capturing image.")
 
-                stream = BytesIO()
-                self.camera.capture(stream, format='jpeg')
-
-                stream.seek(0)
-                captured_image = Image.open(stream)
-                captured_image.load()
-                stream.close()
+                captured_image = self._capture_image()
 
                 if self._is_motion_detected(captured_image):
                     logger.debug("MOTION DETECTED!")
