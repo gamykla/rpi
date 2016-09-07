@@ -30,10 +30,10 @@ class SecurityCamera():
     def start_cam(self):
         self.capture_loop()
 
-    def _is_motion_detected(self, image_captured):
-        if not image_captured:
+    def _is_motion_detected(self, new_image_captured):
+        if not self.last_image_captured:
             return False
-        return self.motion_sensor.is_motion_detected(self.last_image_captured, image_captured)
+        return self.motion_sensor.is_motion_detected(self.last_image_captured, new_image_captured)
 
     def capture_loop(self):
         self.camera.start_preview()
