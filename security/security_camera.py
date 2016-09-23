@@ -115,7 +115,7 @@ class ImageUploader(multiprocessing.Process):
         while True:
             try:
                 image_data = self.image_data_queue.get()
-                logger.debug("Got image: {}".format(image_data))
+                logger.debug("Got image: {}".format(len(image_data)))
             except:
                 logger.exception("Image uploader exception")
 
