@@ -3,3 +3,4 @@ fabric
 Pillow
 numpy
 nose
+requests

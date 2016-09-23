@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import logging
+import requests
 import multiprocessing
+import base64
 import sys
 import json
 import logging.handlers
@@ -14,7 +16,7 @@ import motion_detector
 
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 formatter = logging.Formatter('%(filename)s %(name)s %(asctime)s - %(levelname)s - %(message)s')
 
@@ -102,20 +104,27 @@ class ImageUploader(multiprocessing.Process):
     """ Upload captured images to camera server """
     def __init__(self, image_data_queue):
         super(ImageUploader, self).__init__()
+        self._load_server_configuration()
         self.image_data_queue = image_data_queue
 
-    def _load_server_credentials(self):
+    def _load_server_configuration(self):
         with open("/home/pi/cam_server_credentials.json") as f:
-            cam_server_credentials = f.read()
-        credentials_json = json.loads(cam_server_credentials)
-        self.client_key = credentials_json['CLIENT_KEY']
-        self.client_secret = credentials_json['CLIENT_SECRET']
+            cam_server_config = f.read()
+        cam_server_config_json = json.loads(cam_server_config)
+
+        self.client_key = cam_server_config_json['CLIENT_KEY']
+        self.client_secret = cam_server_config_json['CLIENT_SECRET']
+        self.upload_endpoint_url = cam_server_config_json['UPLOAD_ENDPOINT_URL']
 
     def run(self):
         while True:
             try:
                 image_data = self.image_data_queue.get()
                 logger.debug("Got image: {}".format(len(image_data)))
+                requests.post(
+                    self.upload_endpoint_url,
+                    data=json.dumps({"image_data_b64": base64.encode(image_data)}),
+                    headers={"Content-Type": "application/json"})
             except:
                 logger.exception("Image uploader exception")
 
