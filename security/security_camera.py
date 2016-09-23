@@ -94,7 +94,7 @@ class SecurityCamera():
 
                 self.last_image_captured = captured_image
         finally:
-            logger.debug("Shutting down SecurityCamera.")
+            logger.info("Shutting down SecurityCamera.")
             self.camera.close()
 
 
@@ -130,9 +130,11 @@ def main():
         security_camera = SecurityCamera(_build_camera(), motion_sensor, image_data_queue)
         security_camera.start_cam()
     finally:
+        logger.info("Cleaning up workers.")
         if image_uploader_process.is_alive():
             image_uploader_process.terminate()
             image_uploader_process.join()
+            logger.info("Worker terminated.")
 
 if __name__ == "__main__":
     try:
@@ -140,3 +142,5 @@ if __name__ == "__main__":
     except:
         logger.exception("Crash!")
         sys.exit(-1)
+    finally:
+        logger.info("Exiting!")
