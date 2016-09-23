@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import logging
+import logging.handlers
 from io import BytesIO
 from time import sleep
 
