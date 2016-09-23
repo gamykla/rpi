@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import logging
+import sys
 import logging.handlers
 from io import BytesIO
 from time import sleep
@@ -79,7 +80,7 @@ class SecurityCamera():
                     logger.debug("MOTION DETECTED!")
 
                     stream = BytesIO()
-                    captured_image.save(stream)
+                    captured_image.save(stream, format='jpeg')
                     stream.seek(0)
                     image_bytes = stream.getvalue()
                     stream.close()
@@ -100,4 +101,8 @@ def main():
     security_camera.start_cam()
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except:
+        logger.exception("Crash!")
+        sys.exit(-1)
