@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 def _image_entropy(img):
     w, h = img.size
     a = np.array(img.convert('RGB')).reshape((w * h, 3))
-    h, e = np.histogramdd(a, bins=(16, ) * 3, range=((0, 256), ) * 3)
+    h, _ = np.histogramdd(a, bins=(16, ) * 3, range=((0, 256), ) * 3)
     prob = h/np.sum(h)  # normalize
     prob = prob[prob > 0]  # remove zeros
     entropy = -np.sum(prob * np.log2(prob))
@@ -32,8 +32,3 @@ class MotionDetector(object):
         difference_image = ImageChops.difference(image1, image2)
         entropy = self.entropy_calculator(difference_image)
         return math.fabs(entropy) > MotionDetector.THRESHOLD
-
-if __name__ == "__main__":
-    from io import BytesIO
-    stream = BytesIO()
-    stream.write(bytes("abc"))

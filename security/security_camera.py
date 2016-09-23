@@ -7,8 +7,23 @@ from picamera import PiCamera
 
 import motion_detector
 
-logging.basicConfig(format='%(asctime)-15s  %(message)s', level=logging.DEBUG)
+
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter('%(filename)s %(name)s %(asctime)s - %(levelname)s - %(message)s')
+
+syslogHandler = logging.handlers.SysLogHandler(address='/dev/log')
+syslogHandler.setFormatter(formatter)
+
+consoleHandler = logging.StreamHandler()
+consoleHandler.setFormatter(formatter)
+
+logger.addHandler(consoleHandler)
+logger.addHandler(syslogHandler)
+
+logging.basicConfig(format='%(asctime)-15s  %(message)s', level=logging.DEBUG)
+
 
 DEFAULT_IMAGE_WIDTH = 1024
 DEFAULT_IMAGE_HEIGHT = 768
@@ -60,6 +75,14 @@ class SecurityCamera():
 
                 if self._is_motion_detected(captured_image):
                     logger.debug("MOTION DETECTED!")
+
+                    stream = BytesIO()
+                    captured_image.save(stream)
+                    stream.seek(0)
+                    image_bytes = stream.getvalue()
+                    stream.close()
+                    logger.info(len(image_bytes))
+
                 else:
                     logger.debug("No motion.")
 
