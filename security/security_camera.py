@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import logging
 from io import BytesIO
 from time import sleep
