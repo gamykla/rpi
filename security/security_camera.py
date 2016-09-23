@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import logging
+import multiprocessing
 import sys
+import json
 import logging.handlers
 from io import BytesIO
 from time import sleep
@@ -40,9 +42,10 @@ def _build_camera():
 
 class SecurityCamera():
 
-    def __init__(self, camera, motion_sensor):
+    def __init__(self, camera, motion_sensor, image_data_queue):
         self.camera = camera
         self.motion_sensor = motion_sensor
+        self.image_data_queue = image_data_queue
         self.last_image_captured = None
 
     def start_cam(self):
@@ -84,8 +87,8 @@ class SecurityCamera():
                     stream.seek(0)
                     image_bytes = stream.getvalue()
                     stream.close()
-                    logger.info(len(image_bytes))
 
+                    self.image_data_queue.put(image_bytes)
                 else:
                     logger.debug("No motion.")
 
@@ -95,10 +98,41 @@ class SecurityCamera():
             self.camera.close()
 
 
+class ImageUploader(multiprocessing.Process):
+    """ Upload captured images to camera server """
+    def __init__(self, image_data_queue):
+        super(ImageUploader, self).__init__()
+        self.image_data_queue = image_data_queue
+
+    def _load_server_credentials(self):
+        with open("/home/pi/cam_server_credentials.json") as f:
+            cam_server_credentials = f.read()
+        credentials_json = json.loads(cam_server_credentials)
+        self.client_key = credentials_json['CLIENT_KEY']
+        self.client_secret = credentials_json['CLIENT_SECRET']
+
+    def run(self):
+        while True:
+            try:
+                image_data = self.image_data_queue.get()
+                logger.debug("Got image: {}".format(image_data))
+            except:
+                logger.exception("Image uploader exception")
+
+
 def main():
-    motion_sensor = motion_detector.MotionDetector()
-    security_camera = SecurityCamera(_build_camera(), motion_sensor)
-    security_camera.start_cam()
+    try:
+        image_data_queue = multiprocessing.Queue()
+        image_uploader_process = ImageUploader(image_data_queue)
+        image_uploader_process.start()
+
+        motion_sensor = motion_detector.MotionDetector()
+        security_camera = SecurityCamera(_build_camera(), motion_sensor, image_data_queue)
+        security_camera.start_cam()
+    finally:
+        if image_uploader_process.is_alive():
+            image_uploader_process.terminate()
+            image_uploader_process.join()
 
 if __name__ == "__main__":
     try:
