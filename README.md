@@ -16,4 +16,16 @@ rpi/security/security_camera.py &
 ```
 kill -INT $(cat /home/pi/security_camera.pid)
 ```
+* installing security_camera as a systemd service
+```
+cp systemd/security_camera.service /lib/systemd/system
+chmod 644 /lib/systemd/system/security_camera.service
+sudo systemctl daemon-reload
+sudo systemctl enable security_camera.service
+```
+* view logs
+ * Log levels can be changed by editing security_camera.py. default is logger.setLevel(logging.INFO)
+```
+tail -f /var/log/syslog
+```
 
