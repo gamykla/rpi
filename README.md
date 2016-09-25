@@ -24,10 +24,16 @@ sudo systemctl daemon-reload
 sudo systemctl enable security_camera.service
 # if you want to disable it:
 sudo systemctl disable security_camera.service
+# check service status
+sudo systemctl status security_camera.service
 ```
 * view logs
  * Log levels can be changed by editing security_camera.py. default is logger.setLevel(logging.INFO)
 ```
 tail -f /var/log/syslog
 ```
+
+References
+* http://www.raspberrypi-spy.co.uk/2015/10/how-to-autorun-a-python-script-on-boot-using-systemd/
+* http://www.dynacont.net/documentation/linux/Useful_SystemD_commands/
 
