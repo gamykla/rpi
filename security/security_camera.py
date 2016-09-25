@@ -108,7 +108,7 @@ class ImageUploader(multiprocessing.Process):
         self.image_data_queue = image_data_queue
 
     def _load_server_configuration(self):
-        with open("/home/pi/cam_server_credentials.json") as f:
+        with open("/home/pi/cam_server_settings.json") as f:
             cam_server_config = f.read()
         cam_server_config_json = json.loads(cam_server_config)
 
