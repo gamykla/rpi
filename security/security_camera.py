@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import logging
+import os
 import requests
 import multiprocessing
 import base64
@@ -140,8 +141,15 @@ class ImageUploader(multiprocessing.Process):
                 logger.exception("Image uploader exception")
 
 
+def _write_pid():
+    pid = str(os.getpid())
+    with open("/home/pi/security_camera.pid", "w") as f:
+        f.write(pid)
+
+
 def main():
-    image_uploader_process = None
+    _write_pid()
+
     try:
         image_data_queue = multiprocessing.Queue()
         image_uploader_process = ImageUploader(image_data_queue)
