@@ -132,6 +132,7 @@ class ImageUploader(multiprocessing.Process):
 
 
 def main():
+    image_uploader_process = None
     try:
         image_data_queue = multiprocessing.Queue()
         image_uploader_process = ImageUploader(image_data_queue)
