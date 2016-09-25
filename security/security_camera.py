@@ -130,7 +130,7 @@ class ImageUploader(multiprocessing.Process):
                 # TODO - Retry
                 requests.post(
                     self.upload_endpoint_url,
-                    data=json.dumps({"image_data_b64": base64.encode(image_data)}),
+                    data=json.dumps({"image_data_b64": base64.encodestring(image_data)}),
                     headers={"Content-Type": "application/json"})
             except:
                 logger.exception("Image uploader exception")
