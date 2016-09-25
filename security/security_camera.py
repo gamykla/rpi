@@ -152,6 +152,7 @@ def _write_pid():
     pid = str(os.getpid())
     with open(PID_FILE, "w") as f:
         f.write(pid)
+    logger.info("security_camera is starting with main pid {}".format(pid))
 
 
 def main():
