@@ -1,11 +1,7 @@
-import logging
 import math
 
 from PIL import ImageChops
 import numpy as np
-
-
-logger = logging.getLogger(__name__)
 
 
 def _image_entropy(img):
@@ -15,7 +11,6 @@ def _image_entropy(img):
     prob = h/np.sum(h)  # normalize
     prob = prob[prob > 0]  # remove zeros
     entropy = -np.sum(prob * np.log2(prob))
-    logger.debug("Entropy = {}".format(entropy))
     return entropy
 
 
