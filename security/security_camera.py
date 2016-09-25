@@ -128,6 +128,7 @@ class ImageUploader(multiprocessing.Process):
                 logger.debug("Got image: {}".format(len(image_data)))
 
                 # TODO - Add Retry
+                # TODO - don't write post logs to syslog
                 response = requests.post(
                     self.upload_endpoint_url,
                     data=json.dumps({"image_data_b64": base64.encodestring(image_data)}),
