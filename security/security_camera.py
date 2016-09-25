@@ -20,7 +20,7 @@ import motion_detector
 
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 formatter = logging.Formatter('%(filename)s %(name)s %(asctime)s - %(levelname)s - %(message)s')
 

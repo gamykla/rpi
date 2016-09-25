@@ -6,7 +6,7 @@ import numpy as np
 
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 
 def _image_entropy(img):
@@ -21,7 +21,7 @@ def _image_entropy(img):
 
 class MotionDetector(object):
 
-    THRESHOLD = 2.0
+    THRESHOLD = 0.15
 
     def __init__(self, entropy_function=_image_entropy):
         self.entropy_calculator = entropy_function

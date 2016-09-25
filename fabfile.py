@@ -6,7 +6,7 @@ def push_to_pi():
     """
     fab -u pi -i ~/keys/rpi/id_rsa push_to_pi
     """
-    test()
+    # test()
     local('git add .;git commit; git push;')
     with settings(user="pi", host_string="raspberry.pi"):
         with cd('/home/pi/src/rpi'):
