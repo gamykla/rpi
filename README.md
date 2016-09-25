@@ -4,6 +4,7 @@ Raspberry Pi applications
 
 security_camera
 ---------------
+Security camera is a raspberry pi application that detects motion and uploads images in which motion was detected to a security camera server. Useful for home security applications.
 * setup - create /home/pi/cam_server_settings.json. Include keys
  * CLIENT_KEY: camera server client id
  * CLIENT_SECRET: camera server client secret
