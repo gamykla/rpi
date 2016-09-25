@@ -5,6 +5,7 @@ import requests
 import multiprocessing
 import base64
 import sys
+import signal
 import json
 import logging.handlers
 from io import BytesIO
@@ -32,6 +33,7 @@ logger.addHandler(syslogHandler)
 
 logging.basicConfig(format='%(asctime)-15s  %(message)s', level=logging.DEBUG)
 
+PID_FILE = "/home/pi/security_camera.pid"
 
 DEFAULT_IMAGE_WIDTH = 1024
 DEFAULT_IMAGE_HEIGHT = 768
@@ -143,7 +145,7 @@ class ImageUploader(multiprocessing.Process):
 
 def _write_pid():
     pid = str(os.getpid())
-    with open("/home/pi/security_camera.pid", "w") as f:
+    with open(PID_FILE, "w") as f:
         f.write(pid)
 
 
@@ -165,7 +167,15 @@ def main():
             image_uploader_process.join()
             logger.info("Worker terminated.")
 
+        os.remove(PID_FILE)
+
+
+def signal_handler(signal, frame):
+        print('Received SIGINT')
+        sys.exit(0)
+
 if __name__ == "__main__":
+    signal.signal(signal.SIGINT, signal_handler)
     try:
         main()
     except:
