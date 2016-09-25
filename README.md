@@ -10,6 +10,8 @@ security_camera
  * UPLOAD_ENDPOINT_URL: camera server image upload endpoint.
 * start
 ```
+# make sure requirements are installed
+pip install -r requirements/base.txt
 rpi/security/security_camera.py &
 ```
 * stop
