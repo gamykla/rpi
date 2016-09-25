@@ -1,6 +1,3 @@
-picamera
+-r base.txt
 fabric
-Pillow
-numpy
 nose
-requests

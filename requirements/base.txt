@@ -1,0 +1,5 @@
+retrying==1.3.3
+picamera
+Pillow
+numpy
+requests

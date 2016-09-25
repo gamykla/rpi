@@ -1,0 +1,10 @@
+[Unit]
+Description=Security Camera
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/home/pi/src/rpi/security/security_camera.py
+
+[Install]
+WantedBy=multi-user.target
