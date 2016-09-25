@@ -108,13 +108,16 @@ class ImageUploader(multiprocessing.Process):
         self.image_data_queue = image_data_queue
 
     def _load_server_configuration(self):
-        with open("/home/pi/cam_server_settings.json") as f:
-            cam_server_config = f.read()
-        cam_server_config_json = json.loads(cam_server_config)
+        try:
+            with open("/home/pi/cam_server_settings.json") as f:
+                cam_server_config = f.read()
+            cam_server_config_json = json.loads(cam_server_config)
 
-        self.client_key = cam_server_config_json['CLIENT_KEY']
-        self.client_secret = cam_server_config_json['CLIENT_SECRET']
-        self.upload_endpoint_url = cam_server_config_json['UPLOAD_ENDPOINT_URL']
+            self.client_key = cam_server_config_json['CLIENT_KEY']
+            self.client_secret = cam_server_config_json['CLIENT_SECRET']
+            self.upload_endpoint_url = cam_server_config_json['UPLOAD_ENDPOINT_URL']
+        except:
+            logger.exception("Error loading server config.")
 
     def run(self):
         while True:
