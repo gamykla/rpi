@@ -121,6 +121,8 @@ class ImageUploader(multiprocessing.Process):
             try:
                 image_data = self.image_data_queue.get()
                 logger.debug("Got image: {}".format(len(image_data)))
+
+                # TODO - Retry
                 requests.post(
                     self.upload_endpoint_url,
                     data=json.dumps({"image_data_b64": base64.encode(image_data)}),
@@ -140,7 +142,7 @@ def main():
         security_camera.start_cam()
     finally:
         logger.info("Cleaning up workers.")
-        if image_uploader_process.is_alive():
+        if image_uploader_process and image_uploader_process.is_alive():
             image_uploader_process.terminate()
             image_uploader_process.join()
             logger.info("Worker terminated.")
