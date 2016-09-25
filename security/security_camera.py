@@ -178,6 +178,9 @@ if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal_handler)
     try:
         main()
+    except SystemExit:
+        logger.info("Graceful shutdown.")
+        sys.exit(0)
     except:
         logger.exception("Crash!")
         sys.exit(-1)
