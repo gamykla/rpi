@@ -70,6 +70,8 @@ class SecurityCamera():
             captured_image.load()
             stream.close()
             return captured_image
+        except SystemExit:
+            raise
         except:
             logger.exception("An error occured capturing image.")
 
