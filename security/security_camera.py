@@ -18,7 +18,7 @@ import motion_detector
 
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.WARN)
+logger.setLevel(logging.INFO)
 
 formatter = logging.Formatter('%(filename)s %(name)s %(asctime)s - %(levelname)s - %(message)s')
 
@@ -98,8 +98,9 @@ class SecurityCamera():
                     logger.debug("No motion.")
 
                 self.last_image_captured = captured_image
-        finally:
+        except SystemExit:
             logger.info("Shutting down SecurityCamera.")
+        finally:
             self.camera.close()
 
 
@@ -139,6 +140,8 @@ class ImageUploader(multiprocessing.Process):
                     auth=(self.client_key, self.client_secret))
 
                 response.raise_for_status()
+            except SystemExit:
+                logger.info("Image uploader is exiting.")
             except:
                 logger.exception("Image uploader exception")
 
