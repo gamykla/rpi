@@ -118,6 +118,7 @@ class ImageUploader(multiprocessing.Process):
             self.upload_endpoint_url = cam_server_config_json['UPLOAD_ENDPOINT_URL']
         except:
             logger.exception("Error loading server config.")
+            raise
 
     def run(self):
         while True:
