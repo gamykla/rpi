@@ -14,6 +14,8 @@ from time import sleep
 from PIL import Image
 from picamera import PiCamera
 
+from retrying import retry
+
 import motion_detector
 
 
@@ -127,21 +129,21 @@ class ImageUploader(multiprocessing.Process):
             logger.exception("Error loading server config.")
             raise
 
+    @retry(stop_max_attempt_number=10, wait_fixed=2000)
+    def _post_image_to_server(self, image_data):
+        response = requests.post(
+            self.upload_endpoint_url,
+            data=json.dumps({"image_data_b64": base64.encodestring(image_data)}),
+            headers={"Content-Type": "application/json"},
+            auth=(self.client_key, self.client_secret))
+        response.raise_for_status()
+
     def run(self):
         while True:
             try:
                 image_data = self.image_data_queue.get()
                 logger.debug("Got image: {}".format(len(image_data)))
-
-                # TODO - Add Retry
-                # TODO - don't write post logs to syslog
-                response = requests.post(
-                    self.upload_endpoint_url,
-                    data=json.dumps({"image_data_b64": base64.encodestring(image_data)}),
-                    headers={"Content-Type": "application/json"},
-                    auth=(self.client_key, self.client_secret))
-
-                response.raise_for_status()
+                self._post_image_to_server(image_data)
             except SystemExit:
                 logger.info("Image uploader is exiting.")
             except:
