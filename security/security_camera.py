@@ -111,6 +111,7 @@ class ImageUploader(multiprocessing.Process):
         try:
             with open("/home/pi/cam_server_settings.json") as f:
                 cam_server_config = f.read()
+            logger.debug("Using server config: {}".format(cam_server_config))
             cam_server_config_json = json.loads(cam_server_config)
 
             self.client_key = cam_server_config_json['CLIENT_KEY']
