@@ -23,7 +23,7 @@ chmod 644 /lib/systemd/system/security_camera.service
 sudo systemctl daemon-reload
 sudo systemctl enable security_camera.service
 # if you want to disable it:
-sudo systemctl systemctl disable security_camera.service
+sudo systemctl disable security_camera.service
 ```
 * view logs
  * Log levels can be changed by editing security_camera.py. default is logger.setLevel(logging.INFO)
