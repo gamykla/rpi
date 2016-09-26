@@ -39,3 +39,4 @@ response = client.change_resource_record_sets(
             },
         ]
     })
+print response
