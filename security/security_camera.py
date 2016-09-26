@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import logging
 import os
 import requests
 import multiprocessing
@@ -7,7 +6,6 @@ import base64
 import sys
 import signal
 import json
-import logging.handlers
 from io import BytesIO
 from time import sleep
 
@@ -16,24 +14,11 @@ from picamera import PiCamera
 
 from retrying import retry
 
+import log
 import motion_detector
 
+logger = log.get_logger(__name__)
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
-formatter = logging.Formatter('%(filename)s %(name)s %(asctime)s - %(levelname)s - %(message)s')
-
-syslogHandler = logging.handlers.SysLogHandler(address='/dev/log')
-syslogHandler.setFormatter(formatter)
-
-consoleHandler = logging.StreamHandler()
-consoleHandler.setFormatter(formatter)
-
-logger.addHandler(consoleHandler)
-logger.addHandler(syslogHandler)
-
-logging.basicConfig(format='%(asctime)-15s  %(message)s', level=logging.DEBUG)
 
 PID_FILE = "/home/pi/security_camera.pid"
 

@@ -1,12 +1,11 @@
 import math
-import logging
 
 from PIL import ImageChops
 import numpy as np
 
+import log
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+logger = log.get_logger(__name__)
 
 
 def _image_entropy(img):
@@ -33,5 +32,5 @@ class MotionDetector(object):
         entropy = self.entropy_calculator(difference_image)
         entropy_abs = math.fabs(entropy)
         logger.debug("entropy_abs: {} {}".format(
-            entropy_abs, "XXXX" if (entropy_abs > MotionDetector.THRESHOLD) else ""))
+            entropy_abs, "MOTION DETECTED" if (entropy_abs > MotionDetector.THRESHOLD) else ""))
         return entropy_abs > MotionDetector.THRESHOLD
