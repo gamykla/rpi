@@ -2,6 +2,12 @@ from fabric.api import task, run, local, settings, cd
 
 
 @task
+def deploy():
+    # TODO - implement a deploy
+    pass
+
+
+@task
 def push_to_pi():
     """
     fab -u pi -i ~/keys/rpi/id_rsa push_to_pi
@@ -16,6 +22,7 @@ def push_to_pi():
 
 @task
 def test():
+    # TODO - Fix tests
     """
     fab test
     """

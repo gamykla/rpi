@@ -20,7 +20,7 @@ def _image_entropy(img):
 
 class MotionDetector(object):
 
-    THRESHOLD = 0.15
+    THRESHOLD = 0.2
 
     def __init__(self, entropy_function=_image_entropy):
         self.entropy_calculator = entropy_function
