@@ -6,7 +6,7 @@ import numpy as np
 
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 
 def _image_entropy(img):

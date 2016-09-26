@@ -143,7 +143,7 @@ class ImageUploader(multiprocessing.Process):
             try:
                 image_data = self.image_data_queue.get()
                 logger.debug("Got image: {}".format(len(image_data)))
-                #  self._post_image_to_server(image_data)
+                self._post_image_to_server(image_data)
             except SystemExit:
                 logger.info("Image uploader is exiting.")
             except:
