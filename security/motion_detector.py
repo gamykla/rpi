@@ -32,5 +32,6 @@ class MotionDetector(object):
         difference_image = ImageChops.difference(image1, image2)
         entropy = self.entropy_calculator(difference_image)
         entropy_abs = math.fabs(entropy)
-        logger.debug("entropy_abs: {}".format(entropy_abs))
+        logger.debug("entropy_abs: {} {}".format(
+            entropy_abs, "XXXX" if (entropy_abs > MotionDetector.THRESHOLD) else ""))
         return entropy_abs > MotionDetector.THRESHOLD
