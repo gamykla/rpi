@@ -10,7 +10,7 @@ Security camera is a raspberry pi application that detects motion and uploads im
 * setup - create /home/pi/cam_server_settings.json. Include keys
  * CLIENT_KEY: camera server client id
  * CLIENT_SECRET: camera server client secret
- * UPLOAD_ENDPOINT_URL: camera server image upload endpoint.
+ * UPLOAD_ENDPOINT_URL: camera server image upload endpoint. The server code is here: https://github.com/jelis/security-cam
 * start
 ```
 # make sure requirements are installed
