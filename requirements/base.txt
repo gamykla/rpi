@@ -3,3 +3,4 @@ picamera
 Pillow
 numpy
 requests
+awscli

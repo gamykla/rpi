@@ -8,7 +8,7 @@ def deploy():
 
 
 @task
-def push_to_pi():
+def push():
     """
     fab -u pi -i ~/keys/rpi/id_rsa push_to_pi
     """
