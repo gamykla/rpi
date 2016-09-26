@@ -38,6 +38,10 @@ sudo systemctl status security_camera.service
 tail -f /var/log/syslog
 ```
 
+dyn_dns
+----------
+* utils/dyn_dns.py dynamic dns update tool. Schedule it to run from a machine with your network to update your hostname dns address if you're using route53 hosted zones from AWS.
+
 References
 * http://www.raspberrypi-spy.co.uk/2015/10/how-to-autorun-a-python-script-on-boot-using-systemd/
 * http://www.dynacont.net/documentation/linux/Useful_SystemD_commands/
