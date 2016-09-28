@@ -5,7 +5,7 @@
 # example: dyn_dns 3213124 www.mysite.com
 #
 # to schedule see https://www.raspberrypi.org/documentation/linux/usage/cron.md
-#
+# you might want to set local time. see https://www.raspberrypi.org/documentation/configuration/raspi-config.md 
 import botocore.session
 import json
 import sys
