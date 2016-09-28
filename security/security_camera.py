@@ -1,4 +1,11 @@
 #!/usr/bin/env python
+# to start and stop the cam at various times:
+# run crontab:
+# crontab -e
+# to start the cam at 7:30 include the below bit in your crontab
+# 30 7 * * * <path-to-executable>/security_camera.py &
+# to shut it down at 3:30pm add what's below
+# 30 15 * * * kill -INT $(cat /home/pi/security_camera.pid)
 import os
 import requests
 import multiprocessing
