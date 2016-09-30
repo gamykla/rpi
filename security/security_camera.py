@@ -89,7 +89,7 @@ class SecurityCamera():
                     image_bytes = stream.getvalue()
                     stream.close()
 
-                    self.image_data_queue.put(image_bytes)
+                    #self.image_data_queue.put(image_bytes)
                 else:
                     logger.debug("No motion.")
 
