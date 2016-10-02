@@ -1,3 +1,3 @@
 #!/bin/bash
-/home/pi/stopcam.sh
-./src/rpi/security/security_camera.py &
+/home/pi/src/rpi/bin/stopcam.sh
+/home/pi/src/rpi/security/security_camera.py &
