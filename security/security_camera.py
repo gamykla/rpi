@@ -138,8 +138,12 @@ class ImageUploader(multiprocessing.Process):
                 self._post_image_to_server(image_data)
             except SystemExit:
                 logger.info("Image uploader is exiting.")
+            except requests.ConnectionError:
+                logger.exception("There has been a problem connecting to server")
+                self.image_data_queue.put(image_data)
+                sleep(30)
             except:
-                logger.exception("Image uploader exception")
+                logger.exception("Something went wrong!")
 
 
 def _write_pid():
