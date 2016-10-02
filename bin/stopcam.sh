@@ -1,2 +1,3 @@
 #!/bin/bash
-kill -INT $(cat security_camera.pid)
+
+if [ -a /home/pi/security_camera.pid ]; kill -INT $(cat /home/pi/security_camera.pid); fi
