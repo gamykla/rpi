@@ -38,7 +38,7 @@ sudo systemctl status security_camera.service
 tail -f /var/log/syslog
 ```
 
-Alternative to SystemD is to run with cron.
+#### Alternative to SystemD is to run with cron.
 * run
 ```
 crontab -e
