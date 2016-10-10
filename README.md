@@ -38,6 +38,18 @@ sudo systemctl status security_camera.service
 tail -f /var/log/syslog
 ```
 
+Alternative to SystemD is to run with cron.
+* run
+```
+crontab -e
+```
+* add what's below to run the cam mon-fri starting at 7:30am and endind at 3:30pm
+```
+30 7 * * 1,2,3,4,5 /home/pi/runcam.sh 
+30 15 * * 1,2,3,4,5 /home/pi/stopcam.sh
+```
+Of course make sure the runcam.sh and stopcam.sh scripts are in /home/pi
+
 dyn_dns
 ----------
 * utils/dyn_dns.py dynamic dns update tool. Schedule it to run from a machine with your network to update your hostname dns address if you're using route53 hosted zones from AWS.
