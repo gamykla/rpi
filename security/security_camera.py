@@ -46,7 +46,7 @@ def _build_camera():
 class CameraSettings(object):
 
     def __init__(self):
-        config_directory = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+        config_directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "configuration")
         config_file = os.path.join(config_directory, "security_camera_settings.json")
         with open(config_file) as cf:
             self.config = json.loads(cf.read())
