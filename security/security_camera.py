@@ -10,6 +10,7 @@ import os
 import requests
 import multiprocessing
 import base64
+import datetime
 import logging
 import sys
 import signal
@@ -42,21 +43,59 @@ def _build_camera():
     return camera
 
 
-class SecurityCamera():
+class CameraSettings(object):
+
+    def __init__(self):
+        config_directory = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+        config_file = os.path.join(config_directory, "security_camera_settings.json")
+        with open(config_file) as cf:
+            self.config = json.loads(cf.read())
+
+    def get_value(self, key):
+        return self.config.get(key)
+
+
+def _write_image_to_file(image, filename):
+    """ Write a PIL image to location filename"""
+    stream = BytesIO()
+    image.save(stream, format='jpeg')
+    stream.seek(0)
+    image_bytes = stream.getvalue()
+    with open(filename, "w") as f:
+        f.write(image_bytes)
+    stream.close()
+
+
+class SecurityCamera(object):
 
     def __init__(self, camera, motion_sensor, image_data_queue):
         self.camera = camera
         self.motion_sensor = motion_sensor
         self.image_data_queue = image_data_queue
         self.last_image_captured = None
+        self.config = CameraSettings()
 
     def start_cam(self):
         self.capture_loop()
 
+    def _save_debug_images(self, before, after):
+        """Save two images where motion has been detected from one to the next for debug purposes."""
+        current_time = datetime.datetime.now().time().isoformat()
+        debug_image_dir = self.config.get_value("debug_images_dir")
+
+        _write_image_to_file(before, os.path.join(debug_image_dir, "{}-1".format(current_time)))
+        _write_image_to_file(after, os.path.join(debug_image_dir, "{}-2".format(current_time)))
+
     def _is_motion_detected(self, new_image_captured):
         if not self.last_image_captured:
             return False
-        return self.motion_sensor.is_motion_detected(self.last_image_captured, new_image_captured)
+
+        motion_detected = self.motion_sensor.is_motion_detected(self.last_image_captured, new_image_captured)
+
+        if motion_detected and self.config.get_value("debug_images"):
+            self._save_debug_images(self.last_image_captured, new_image_captured)
+
+        return motion_detected
 
     def _capture_image(self):
         try:
