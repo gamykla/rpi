@@ -10,6 +10,7 @@ import os
 import requests
 import multiprocessing
 import base64
+import logging
 import sys
 import signal
 import json
@@ -24,7 +25,9 @@ from retrying import retry
 import log
 import motion_detector
 
-logger = log.get_logger(__name__)
+log.init_logging()
+
+logger = logging.getLogger(__name__)
 
 
 PID_FILE = "/home/pi/security_camera.pid"

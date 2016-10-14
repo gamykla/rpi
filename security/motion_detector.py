@@ -1,11 +1,11 @@
+import logging
 import math
 
 from PIL import ImageChops
 import numpy as np
 
-import log
 
-logger = log.get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 
 def _image_entropy(img):

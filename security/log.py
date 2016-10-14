@@ -1,15 +1,13 @@
-import logging
-import logging.handlers
+import os
+
+import logging.config
 
 
-def get_logger(name):
-    logger = logging.getLogger(name)
-    logger.setLevel(logging.INFO)
-    formatter = logging.Formatter('%(name)s %(asctime)s - %(levelname)s - %(message)s')
-    syslogHandler = logging.handlers.SysLogHandler(address='/dev/log')
-    syslogHandler.setFormatter(formatter)
-    consoleHandler = logging.StreamHandler()
-    consoleHandler.setFormatter(formatter)
-    logger.addHandler(consoleHandler)
-    logger.addHandler(syslogHandler)
-    return logger
+def init_logging():
+    config_directory = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        "..",
+        "configuration")
+    logging.config.fileConfig(
+        os.path.join(config_directory, "logging.cfg"),
+        disable_existing_loggers=False)
